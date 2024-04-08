@@ -1,0 +1,28 @@
+services:
+  postgres:
+    image: postgres:16.2-alpine3.19
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: app
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+    volumes:
+      - ./scripts/set-search-path.sql:/docker-entrypoint-initdb.d/set-search-path.sql
+  migration:
+    image: flyway/flyway:10.11-alpine
+    command: >
+      -url=jdbc:postgresql://postgres:5432/app
+      -schemas=cccat16 -user=postgres -password=123456
+      -connectRetries=60 migrate
+    volumes:
+      - ./migration/flyway/sql:/flyway/sql
+    depends_on:
+      - postgres
+  cccat16:
+    build: .
+    ports:
+      - "3000:3000"
+    depends_on:
+      migration:
+        condition: service_completed_successfully

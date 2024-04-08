@@ -1,28 +1,10 @@
 import { validate } from "../src/validateCpf";
 
-test("Deve testar um cpf válido", function(){
-    // given - arrange
-    const cpf = "97456321558";
-    // when - act
+test.each([
+    "97456321558",
+    "71428793860",
+    "87748248800"
+])("Deve testar um cpf válido: %s", function(cpf: any){
     const isValid = validate(cpf);
-    // then - assert
-    expect(isValid).toBe(true)
-})
-
-test("Deve testar um cpf válido", function(){
-    // given - arrange
-    const cpf = "71428793860";
-    // when - act
-    const isValid = validate(cpf);
-    // then - assert
-    expect(isValid).toBe(true);
-})
-
-test("Deve testar um cpf válido", function(){
-    // given - arrange
-    const cpf = "87748248800";
-    // when - act
-    const isValid = validate(cpf);
-    // then - assert
     expect(isValid).toBe(true)
 })

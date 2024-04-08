@@ -11,7 +11,7 @@ export function validate(cpf: string) {
         d1 = getD(d1, 11, nCount, digito)
         d2 = getD(d2, 12, nCount, digito)
     };
-    let nDigVerific = cleanedCpf.slice(9);
+    let nDigVerific = extractDigit(cleanedCpf);
     return nDigVerific == getDigitResult(d1, d2);
 
 }
@@ -30,6 +30,10 @@ function allDigitsEqual(cpf: string) {
 
 function getD(d: number, factor: number, count: number, digito: number) {
     return d + (factor - count) * digito;
+}
+
+function extractDigit(cpf: string){
+    return cpf.slice(9);
 }
 
 function getDigitResult(d1: number, d2: number) {

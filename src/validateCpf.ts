@@ -1,3 +1,5 @@
+const CPF_LENGTH = 11;
+
 export function validate(cpf: string) {
     if (!cpf) return false;
     const cleanedCpf = cleanCpf(cpf);
@@ -11,7 +13,7 @@ function cleanCpf(cpf: string) {
 }
 
 function isValidLength(cpf: string) {
-    return cpf.length === 11;
+    return cpf.length === CPF_LENGTH;
 }
 
 function allDigitsEqual(cpf: string) {

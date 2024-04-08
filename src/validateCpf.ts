@@ -11,7 +11,7 @@ export function validate(cpf: string) {
         d1 = getD(d1, 11, nCount, digito)
         d2 = getD(d2, 12, nCount, digito)
     };
-    let nDigVerific = cleanedCpf.substring(cleanedCpf.length - 2, cleanedCpf.length);
+    let nDigVerific = cleanedCpf.slice(9);
     return nDigVerific == getDigitResult(d1, d2);
 
 }

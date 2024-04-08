@@ -45,7 +45,7 @@ function getDigitResult(d1: number, d2: number) {
     return `${dg1}${dg2}`
 }
 
-function getDigit(d: number){
-    let rest = (d % 11);
+function getDigit(total: number){
+    const rest = total%11;
     return (rest < 2) ? 0 : 11 - rest;
 }

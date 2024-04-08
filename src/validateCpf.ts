@@ -11,8 +11,8 @@ export function validate(cpf: string) {
         for (let nCount = 1; nCount < cleanedCpf.length - 1; nCount++) {
             let digito;
             digito = parseInt(cleanedCpf.substring(nCount - 1, nCount));
-            d1 = d1 + (11 - nCount) * digito;
-            d2 = d2 + (12 - nCount) * digito;
+            d1 =getD(d1, 11, nCount, digito)
+            d2 = getD(d2, 12, nCount, digito)
         };
         let nDigVerific = cleanedCpf.substring(cleanedCpf.length - 2, cleanedCpf.length);
         return nDigVerific == getDigit(d1, d2);
@@ -51,4 +51,8 @@ function getDigit(d1: number, d2: number){
     else
         dg2 = 11 - rest;
     return "" + dg1 + "" + dg2;
+}
+
+function getD(d: number, factor: number, count: number, digito: number){
+    return d + (factor - count) * digito;
 }

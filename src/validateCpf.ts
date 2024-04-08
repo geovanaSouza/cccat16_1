@@ -2,13 +2,13 @@ const CPF_LENGTH = 11;
 
 export function validate(rawCpf: string) {
     if (!rawCpf) return false;
-    const cleanedCpf = cleanCpf(rawCpf);
+    const cleanedCpf = removeNonDigits(rawCpf);
     if (!isValidLength(cleanedCpf)) return false;
     if (allDigitsEqual(cleanedCpf)) return false;
     return extractDigit(cleanedCpf) === calculateAllDigits(cleanedCpf);
 }
 
-function cleanCpf(cpf: string) {
+function removeNonDigits(cpf: string) {
     return cpf.replace(/\D/g, "");
 }
 

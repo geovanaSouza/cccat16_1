@@ -1,6 +1,5 @@
 export function validate(cpf: string) {
-    if (cpf === null) return false;
-    if (cpf === undefined) return false;
+    if (!cpf) return false;
     const cleanedCpf = cleanCpf(cpf);
     if (!isValidLength(cleanedCpf)) return false;
     if (allDigitsEqual(cleanedCpf)) return false;

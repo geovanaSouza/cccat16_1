@@ -17,7 +17,8 @@ function isValidLength(cpf: string) {
 }
 
 function allDigitsEqual(cpf: string) {
-    return (cpf.split("").every(c => c === cpf[0]))
+    const [firstDigit] = cpf;
+    return (cpf.split("").every(digit => digit === firstDigit))
 }
 
 function extractDigit(cpf: string){

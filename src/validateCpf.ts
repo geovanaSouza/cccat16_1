@@ -37,8 +37,7 @@ function extractDigit(cpf: string){
 }
 
 function getDigitResult(d1: number, d2: number) {
-    let rest = 0;
-    rest = (d1 % 11);
+    let rest = (d1 % 11);
     let dg1 = (rest < 2) ? 0 : 11 - rest;
     d2 += 2 * dg1;
     rest = (d2 % 11);

@@ -2,8 +2,11 @@ import crypto from "crypto";
 import express from "express";
 import pgp from "pg-promise";
 import { validate } from "./validateCpf";
+import { HttpStatusCode } from "axios";
 const app = express();
 app.use(express.json());
+
+var validator = require('validator');
 
 app.post("/signup", async function (req, res) {
 	let result;
@@ -58,6 +61,32 @@ app.post("/signup", async function (req, res) {
 		}
 		if (typeof result === "number") {
 			res.status(422).send(result + "");
+		} else {
+			res.json(result);
+		}
+	} finally {
+		await connection.$pool.end();
+	}
+});
+
+app.get("/account/:uid", async function (req, res) {
+	let result;
+	const connection = pgp()("postgres://postgres:123456@localhost:5432/app");
+	try {
+		if (validator.isUUID(req.params.uid) !== false) {
+			const [acc] = await connection.query("select * from cccat16.account where account_id = $1", [req.params.uid]);
+			if (acc) {
+				result = acc;
+			} else {
+				// not exist
+				result = -1
+			}
+		} else {
+			// invalid uuid
+			result = -2
+		};
+		if (typeof result === "number") {
+			res.status(HttpStatusCode.NotFound).send(result + "")
 		} else {
 			res.json(result);
 		}

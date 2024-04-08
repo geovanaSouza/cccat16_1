@@ -4,7 +4,7 @@ export function validate(cpf: string) {
     if (!isCpfLenValid(cpf)) return false;
     let cleanedCpf;
     cleanedCpf = cleanCpf(cpf);
-    if (isCpfDigitValid(cleanedCpf)) return false;
+    if (!isCpfDigitValid(cleanedCpf)) return false;
     try {
         let d1, d2;
         d1 = d2 = 0;
@@ -14,23 +14,8 @@ export function validate(cpf: string) {
             d1 = d1 + (11 - nCount) * digito;
             d2 = d2 + (12 - nCount) * digito;
         };
-        let rest;
-        rest = (d1 % 11);
-        // se for menor que 2 é 0, senão é 11 menos o resto
-        let dg1;
-        dg1 = (rest < 2) ? dg1 = 0 : 11 - rest;
-        d2 += 2 * dg1;
-        rest = (d2 % 11);
-        let dg2;
-        if (rest < 2)
-            dg2 = 0;
-        else
-            dg2 = 11 - rest;
-
         let nDigVerific = cleanedCpf.substring(cleanedCpf.length - 2, cleanedCpf.length);
-        let nDigResult;
-        nDigResult = getDigit(dg1, dg2);
-        return nDigVerific == nDigResult;
+        return nDigVerific == getDigit(d1, d2);
     } catch (e) {
         console.error("Erro !" + e)
         return false
@@ -50,9 +35,20 @@ function cleanCpf(cpf: string) {
 }
 
 function isCpfDigitValid(cpf: string) {
-    return (cpf.split("").every(c => c === cpf[0]))
+    return (!cpf.split("").every(c => c === cpf[0]))
 }
 
-function getDigit(dg1: number, dg2: number){
+function getDigit(d1: number, d2: number){
+    let rest
+    rest = (d1 % 11);
+    let dg1
+    dg1 = (rest < 2) ? dg1 = 0 : 11 - rest;
+    d2 += 2 * dg1;
+    rest = (d2 % 11);
+    let dg2;
+    if (rest < 2)
+        dg2 = 0;
+    else
+        dg2 = 11 - rest;
     return "" + dg1 + "" + dg2;
 }

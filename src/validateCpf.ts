@@ -4,8 +4,8 @@ export function validate(cpf: string) {
     const cleanedCpf = cleanCpf(cpf);
     if (!isValidLength(cleanedCpf)) return false;
     if (allDigitsEqual(cleanedCpf)) return false;
-    let d1, d2;
-    d1 = d2 = 0;
+    let d1 = 0;
+    let d2 = 0;
     for (let nCount = 1; nCount < cleanedCpf.length - 1; nCount++) {
         const digito = parseInt(cleanedCpf.substring(nCount - 1, nCount));
         d1 = getD(d1, 11, nCount, digito)
@@ -37,7 +37,7 @@ function extractDigit(cpf: string){
 }
 
 function getDigitResult(d1: number, d2: number) {
-    let rest
+    let rest = 0;
     rest = (d1 % 11);
     let dg1 = (rest < 2) ? 0 : 11 - rest;
     d2 += 2 * dg1;

@@ -14,7 +14,7 @@ export function validate(cpf: string) {
     };
 
     let nDigVerific = extractDigit(cleanedCpf);
-    return nDigVerific == getDigitResult(d1, d2);
+    return nDigVerific == calculateDigit(d1, d2);
 
 }
 
@@ -38,7 +38,7 @@ function extractDigit(cpf: string){
     return cpf.slice(9);
 }
 
-function getDigitResult(d1: number, d2: number) {
+function calculateDigit(d1: number, d2: number) {
     let dg1 = getDigit(d1)
     d2 += 2 * dg1;
     let dg2 = getDigit(d2)

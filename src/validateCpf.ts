@@ -29,7 +29,6 @@ function isCpfLenValid(cpf: string) {
 function cleanCpf(cpf: string) {
     return cpf
         .replace('.', '')
-        .replace('.', '')
         .replace('-', '')
         .replace(" ", "");
 }

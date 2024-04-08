@@ -1,9 +1,9 @@
 export function validate(cpf: string) {
     if (cpf === null) return false;
     if (cpf === undefined) return false;
-    if (!isCpfLenValid(cpf)) return false;
     let cleanedCpf;
     cleanedCpf = cleanCpf(cpf);
+    if (!isCpfLenValid(cleanedCpf)) return false;
     if (allDigitsEqual(cleanedCpf)) return false;
     try {
         let d1, d2;

@@ -1,4 +1,6 @@
 const CPF_LENGTH = 11;
+const FACTOR_FIRST_DIGIT = 10;
+const FACTOR_SECOND_DIGIT = 11;
 
 export function validate(rawCpf: string) {
     if (!rawCpf) return false;
@@ -26,8 +28,8 @@ function extractDigit(cpf: string){
 }
 
 function calculateAllDigits(cpf: string){
-    const digit1 = calculateSingleDigit(cpf, 10);
-    const digit2 = calculateSingleDigit(cpf, 11);
+    const digit1 = calculateSingleDigit(cpf, FACTOR_FIRST_DIGIT);
+    const digit2 = calculateSingleDigit(cpf, FACTOR_SECOND_DIGIT);
     return `${digit1}${digit2}`
 }
 

@@ -3,7 +3,7 @@ export function validate(cpf: string) {
     if (cpf === undefined) return false;
     let cleanedCpf;
     cleanedCpf = cleanCpf(cpf);
-    if (!isCpfLenValid(cleanedCpf)) return false;
+    if (!isValidLength(cleanedCpf)) return false;
     if (allDigitsEqual(cleanedCpf)) return false;
     try {
         let d1, d2;
@@ -22,16 +22,20 @@ export function validate(cpf: string) {
     }
 }
 
-function isCpfLenValid(cpf: string) {
-    return cpf.length >= 11 && cpf.length <= 14
-}
-
 function cleanCpf(cpf: string) {
     return cpf.replace(/\D/g,"");
 }
 
+function isValidLength(cpf: string) {
+    return cpf.length === 11;
+}
+
 function allDigitsEqual(cpf: string) {
     return (cpf.split("").every(c => c === cpf[0]))
+}
+
+function getD(d: number, factor: number, count: number, digito: number){
+    return d + (factor - count) * digito;
 }
 
 function getDigit(d1: number, d2: number){
@@ -47,8 +51,4 @@ function getDigit(d1: number, d2: number){
     else
         dg2 = 11 - rest;
     return "" + dg1 + "" + dg2;
-}
-
-function getD(d: number, factor: number, count: number, digito: number){
-    return d + (factor - count) * digito;
 }

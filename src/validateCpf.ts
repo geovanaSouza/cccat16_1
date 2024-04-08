@@ -4,18 +4,8 @@ export function validate(cpf: string) {
     const cleanedCpf = cleanCpf(cpf);
     if (!isValidLength(cleanedCpf)) return false;
     if (allDigitsEqual(cleanedCpf)) return false;
-
-    let d1 = 0;
-    let d2 = 0;
-    for (let nCount = 1; nCount < cleanedCpf.length - 1; nCount++) {
-        const digito = parseInt(cleanedCpf.substring(nCount - 1, nCount));
-        d1 = getD(d1, 11, nCount, digito)
-        d2 = getD(d2, 12, nCount, digito)
-    };
-
     let nDigVerific = extractDigit(cleanedCpf);
-    return nDigVerific == calculateDigit(d1, d2);
-
+    return nDigVerific == calculateDigit(cleanedCpf);
 }
 
 function cleanCpf(cpf: string) {
@@ -38,7 +28,15 @@ function extractDigit(cpf: string){
     return cpf.slice(9);
 }
 
-function calculateDigit(d1: number, d2: number) {
+function calculateDigit(cpf: string) {
+    let d1 = 0;
+    let d2 = 0;
+    for (let nCount = 1; nCount < cpf.length - 1; nCount++) {
+        const digito = parseInt(cpf.substring(nCount - 1, nCount));
+        d1 = getD(d1, 11, nCount, digito)
+        d2 = getD(d2, 12, nCount, digito)
+    };
+
     let dg1 = getDigit(d1)
     d2 += 2 * dg1;
     let dg2 = getDigit(d2)

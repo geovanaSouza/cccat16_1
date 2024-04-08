@@ -39,5 +39,5 @@ function getDigitResult(d1: number, d2: number) {
     d2 += 2 * dg1;
     rest = (d2 % 11);
     let dg2 = (rest < 2) ? 0 : 11 - rest;
-    return "" + dg1 + "" + dg2;
+    return `${dg1}${dg2}`
 }

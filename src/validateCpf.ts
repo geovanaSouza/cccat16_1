@@ -1,8 +1,8 @@
 const CPF_LENGTH = 11;
 
-export function validate(cpf: string) {
-    if (!cpf) return false;
-    const cleanedCpf = cleanCpf(cpf);
+export function validate(rawCpf: string) {
+    if (!rawCpf) return false;
+    const cleanedCpf = cleanCpf(rawCpf);
     if (!isValidLength(cleanedCpf)) return false;
     if (allDigitsEqual(cleanedCpf)) return false;
     return extractDigit(cleanedCpf) === calculateAllDigits(cleanedCpf);

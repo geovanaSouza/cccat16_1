@@ -3,8 +3,7 @@ export function validate(cpf: string) {
     const cleanedCpf = cleanCpf(cpf);
     if (!isValidLength(cleanedCpf)) return false;
     if (allDigitsEqual(cleanedCpf)) return false;
-    let nDigVerific = extractDigit(cleanedCpf);
-    return nDigVerific == getDigits(cleanedCpf);
+    return extractDigit(cleanedCpf) === calculateAllDigits(cleanedCpf);
 }
 
 function cleanCpf(cpf: string) {
@@ -23,13 +22,13 @@ function extractDigit(cpf: string){
     return cpf.slice(9);
 }
 
-function getDigits(cpf: string){
-    const dg1 = calculateDigit(cpf, 10);
-    const dg2 = calculateDigit(cpf, 11);
-    return `${dg1}${dg2}`
+function calculateAllDigits(cpf: string){
+    const digit1 = calculateSingleDigit(cpf, 10);
+    const digit2 = calculateSingleDigit(cpf, 11);
+    return `${digit1}${digit2}`
 }
 
-function calculateDigit(cpf: string, factor: number) {
+function calculateSingleDigit(cpf: string, factor: number) {
     let total = 0;
     for (const digit of cpf){
         if (factor > 1) total += parseInt(digit) * factor --;

@@ -11,7 +11,7 @@ test.each([
 test.each([
     undefined,
     null,
-    "111111111111",
+    "11111111111",
     "123",
     "123456789123456789",
 ])("Deve testar um cpf inválido: %s", function(cpf: any){

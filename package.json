@@ -16,11 +16,11 @@
     "typescript": "^5.2.2"
   },
   "scripts": {
-    "pretest": "docker-compose up -d --build",
-    "test": "jest",
-    "posttest": "docker-compose stop && docker-compose rm --force",
     "build": "tsc",
-    "start": "docker-compose up -d --build",
-    "stop": "docker-compose stop && docker-compose rm --force"
+    "dev": "docker-compose up -d && nodemon",
+    "prestart": "docker-compose up -d",
+    "start": "ts-node src/api.ts",
+    "stop": "docker-compose stop && docker-compose rm --force",
+    "test": "jest --coverage --watchAll"
   }
 }

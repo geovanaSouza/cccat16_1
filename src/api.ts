@@ -7,7 +7,7 @@ app.use(express.json());
 
 app.post("/signup", async function (req, res) {
 	let result;
-	const connection = pgp()("postgres://postgres:123456@postgres:5432/app");
+	const connection = pgp()("postgres://postgres:123456@localhost:5432/app");
 	try {
 		const id = crypto.randomUUID();
 

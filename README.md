@@ -6,6 +6,7 @@ https://branas.io
 
 # Commands
 
-- `npm run test`: start component dependencies and run tests
-- `npm run start`: initialize api and its components dependencies
+- `npm run dev`: start dependencies and execute app with hot reload
+- `npm run start`: start dependencies and initialize api
 - `npm run stop`: stop api and all components dependencies
+- `npm run test`: run tests with whatchAll

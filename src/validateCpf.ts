@@ -20,33 +20,21 @@ function allDigitsEqual(cpf: string) {
     return (cpf.split("").every(c => c === cpf[0]))
 }
 
-function getD(d: number, factor: number, count: number, digito: number) {
-    return d + (factor - count) * digito;
-}
-
 function extractDigit(cpf: string){
     return cpf.slice(9);
 }
 
 function getDigits(cpf: string){
-    return calculateDigit(cpf);
-}
-
-function calculateDigit(cpf: string) {
-    let d1 = 0;
-    let d2 = 0;
-    for (let nCount = 1; nCount < cpf.length - 1; nCount++) {
-        const digito = parseInt(cpf.substring(nCount - 1, nCount));
-        d1 = getD(d1, 11, nCount, digito)
-        d2 = getD(d2, 12, nCount, digito)
-    };
-    let dg1 = getDigit(d1)
-    d2 += 2 * dg1;
-    let dg2 = getDigit(d2)
+    const dg1 = calculateDigit(cpf, 10);
+    const dg2 = calculateDigit(cpf, 11);
     return `${dg1}${dg2}`
 }
 
-function getDigit(total: number){
+function calculateDigit(cpf: string, factor: number) {
+    let total = 0;
+    for (const digit of cpf){
+        if (factor > 1) total += parseInt(digit) * factor --;
+    }
     const rest = total%11;
     return (rest < 2) ? 0 : 11 - rest;
 }

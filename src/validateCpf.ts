@@ -29,9 +29,8 @@ export function validate(cpf: string) {
 
         let nDigVerific = cleanedCpf.substring(cleanedCpf.length - 2, cleanedCpf.length);
         let nDigResult;
-        nDigResult = "" + dg1 + "" + dg2;
+        nDigResult = getDigit(dg1, dg2);
         return nDigVerific == nDigResult;
-        // se der problema...
     } catch (e) {
         console.error("Erro !" + e)
         return false
@@ -52,4 +51,8 @@ function cleanCpf(cpf: string) {
 
 function isCpfDigitValid(cpf: string) {
     return (cpf.split("").every(c => c === cpf[0]))
+}
+
+function getDigit(dg1: number, dg2: number){
+    return "" + dg1 + "" + dg2;
 }

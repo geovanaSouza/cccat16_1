@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { HttpStatusCode } from "axios";
 
 axios.defaults.validateStatus = function () {
 	return true;
@@ -12,5 +12,6 @@ test("Deve criar uma conta para o passageiro", async function () {
 		isPassenger: true
 	};
 	const output = await axios.post("http://localhost:3000/signup", input);
-	console.log(output.status, output.data);
+	console.log(output.data);
+	expect(output.status).toBe(HttpStatusCode.Ok)
 });

@@ -27,10 +27,7 @@ function isCpfLenValid(cpf: string) {
 }
 
 function cleanCpf(cpf: string) {
-    return cpf
-        .replace('.', '')
-        .replace('-', '')
-        .replace(" ", "");
+    return cpf.replace('.', '').replace('-', '').replace(" ", "");
 }
 
 function isCpfDigitValid(cpf: string) {

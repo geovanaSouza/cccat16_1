@@ -4,7 +4,7 @@ export function validate(cpf: string) {
     if (!isCpfLenValid(cpf)) return false;
     let cleanedCpf;
     cleanedCpf = cleanCpf(cpf);
-    if (!isCpfDigitValid(cleanedCpf)) return false;
+    if (allDigitsEqual(cleanedCpf)) return false;
     try {
         let d1, d2;
         d1 = d2 = 0;
@@ -30,8 +30,8 @@ function cleanCpf(cpf: string) {
     return cpf.replace(/\D/g,"");
 }
 
-function isCpfDigitValid(cpf: string) {
-    return (!cpf.split("").every(c => c === cpf[0]))
+function allDigitsEqual(cpf: string) {
+    return (cpf.split("").every(c => c === cpf[0]))
 }
 
 function getDigit(d1: number, d2: number){

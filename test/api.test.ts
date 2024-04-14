@@ -15,7 +15,7 @@ test("Should create an account to passenger", async function () {
 	expect(responseSignup.status).toBe(HttpStatusCode.Ok)
 	const outputSignup = responseSignup.data;
 	expect(outputSignup.accountId).toBeDefined();
-	let expectedAccount = {
+	const expectedAccount = {
 		account_id: responseSignup.data.accountId,
 		car_plate: null,
 		name: input.name,
@@ -40,7 +40,7 @@ test("Should create an account to driver", async function () {
 	expect(responseSignup.status).toBe(HttpStatusCode.Ok)
 	const outputSignup = responseSignup.data;
 	expect(outputSignup.accountId).toBeDefined();
-	let expectedAccount = {
+	const expectedAccount = {
 		account_id: responseSignup.data.accountId,
 		car_plate: input.carPlate,
 		name: input.name,
@@ -60,8 +60,10 @@ test("Should fail in create account when email is already registered", async fun
 		cpf: "87748248800",
 		isPassenger: true
 	}
-	let responseSignupSetup = await axios.post("http://localhost:3000/signup", input);
+	const responseSignupSetup = await axios.post("http://localhost:3000/signup", input);
 	expect(responseSignupSetup.status).toBe(HttpStatusCode.Ok)
+	const outputSignupSetup = responseSignupSetup.data;
+	expect(outputSignupSetup.accountId).toBeDefined();
 	const responseSignup = await axios.post("http://localhost:3000/signup", input)
 	expect(responseSignup.data).toBe(-4)
 	expect(responseSignup.status).toBe(HttpStatusCode.BadRequest)
@@ -74,7 +76,7 @@ test("Should fail in create account when name is invalid", async function () {
 		cpf: "87748248800",
 		isPassenger: true
 	}
-	let responseSignup = await axios.post("http://localhost:3000/signup", input);
+	const responseSignup = await axios.post("http://localhost:3000/signup", input);
 	expect(responseSignup.data).toBe(-3)
 	expect(responseSignup.status).toBe(HttpStatusCode.BadRequest)
 })
@@ -86,7 +88,7 @@ test("Should fail in create account when email is invalid", async function () {
 		cpf: "87748248800",
 		isPassenger: true
 	}
-	let responseSignup = await axios.post("http://localhost:3000/signup", input);
+	const responseSignup = await axios.post("http://localhost:3000/signup", input);
 	expect(responseSignup.data).toBe(-2)
 	expect(responseSignup.status).toBe(HttpStatusCode.BadRequest)
 })
@@ -98,7 +100,7 @@ test("Should fail in create account when cpf is invalid", async function () {
 		cpf: "123456789",
 		isPassenger: true
 	}
-	let responseSignup = await axios.post("http://localhost:3000/signup", input);
+	const responseSignup = await axios.post("http://localhost:3000/signup", input);
 	expect(responseSignup.data).toBe(-1)
 	expect(responseSignup.status).toBe(HttpStatusCode.BadRequest)
 })

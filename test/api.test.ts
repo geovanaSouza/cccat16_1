@@ -105,26 +105,18 @@ test("Should fail in create account when cpf is invalid", async function () {
 	expect(responseSignup.status).toBe(HttpStatusCode.BadRequest)
 })
 
-test("Should fail in create driver account when carPlat is invalid", async function () {
+test.each([
+	"invalid_plate",
+	undefined,
+	null
+])("Should fail in create driver account when carPlate is invalid: %s", async function (carPlate :any) {
 	const input = {
 		name: "John Doe",
-		email: `john.doe${Math.random()}@gmail.com`,
+		email: `jonh.doe${Math.random()}@gmail.com`,
 		cpf: "87748248800",
 		isDriver: true,
-		carPlate: "invalid_plate"
+		carPlate: carPlate
 	};
-	const responseSignup = await axios.post("http://localhost:3000/signup", input);
-	expect(responseSignup.data).toBe(-5);
-	expect(responseSignup.status).toBe(HttpStatusCode.BadRequest);
-});
-
-test("Should fail in create driver account when carPlate is undefined", async function () {
-	const input = {
-		name: "John Doe",
-		email: `john.doe${Math.random()}@gmail.com`,
-		cpf: "87748248800",
-		isDriver: true,
-	}
 	const responseSignup = await axios.post("http://localhost:3000/signup", input);
 	expect(responseSignup.data).toBe(-5);
 	expect(responseSignup.status).toBe(HttpStatusCode.BadRequest);

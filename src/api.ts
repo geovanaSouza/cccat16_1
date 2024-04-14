@@ -40,7 +40,7 @@ function isPlateValid(plate :string){
 	return plate.match(/[A-Z]{3}[0-9]{4}/)
 }
 
-app.get("/account/:uid", async function (req, res) {
+app.get("/accounts/:uid", async function (req, res) {
 	const connection = pgp()("postgres://postgres:123456@localhost:5432/app");
 	try {
 		if (validator.isUUID(req.params.uid) !== true) return res.status(HttpStatusCode.BadRequest).send(-2 + "");

@@ -2,7 +2,7 @@ const CPF_LENGTH = 11;
 const FACTOR_FIRST_DIGIT = 10;
 const FACTOR_SECOND_DIGIT = 11;
 
-export function validate(rawCpf: string) {
+export function isCpfValid(rawCpf: string) {
     if (!rawCpf) return false;
     const cleanedCpf = removeNonDigits(rawCpf);
     if (!isValidLength(cleanedCpf)) return false;

@@ -60,7 +60,7 @@ test("Should fail in create account when email is already registered", async fun
 	expect(output.status).toBe(HttpStatusCode.Ok)
 	output = await axios.post("http://localhost:3000/signup", input)
 	expect(output.data).toBe(-4)
-	expect(output.status).toBe(HttpStatusCode.UnprocessableEntity)
+	expect(output.status).toBe(HttpStatusCode.BadRequest)
 })
 
 test("Should fail in create account when name is invalid", async function () {
@@ -72,7 +72,7 @@ test("Should fail in create account when name is invalid", async function () {
 	}
 	let output = await axios.post("http://localhost:3000/signup", input);
 	expect(output.data).toBe(-3)
-	expect(output.status).toBe(HttpStatusCode.UnprocessableEntity)
+	expect(output.status).toBe(HttpStatusCode.BadRequest)
 })
 
 test("Should fail in create account when email is invalid", async function () {
@@ -84,7 +84,7 @@ test("Should fail in create account when email is invalid", async function () {
 	}
 	let output = await axios.post("http://localhost:3000/signup", input);
 	expect(output.data).toBe(-2)
-	expect(output.status).toBe(HttpStatusCode.UnprocessableEntity)
+	expect(output.status).toBe(HttpStatusCode.BadRequest)
 })
 
 test("Should fail in create account when cpf is invalid", async function () {
@@ -96,7 +96,7 @@ test("Should fail in create account when cpf is invalid", async function () {
 	}
 	let output = await axios.post("http://localhost:3000/signup", input);
 	expect(output.data).toBe(-1)
-	expect(output.status).toBe(HttpStatusCode.UnprocessableEntity)
+	expect(output.status).toBe(HttpStatusCode.BadRequest)
 })
 
 test("Should fail in create account when carPlat is invalid", async function () {
@@ -109,14 +109,14 @@ test("Should fail in create account when carPlat is invalid", async function () 
 	};
 	const output = await axios.post("http://localhost:3000/signup", input);
 	expect(output.data).toBe(-5)
-	expect(output.status).toBe(HttpStatusCode.UnprocessableEntity)
+	expect(output.status).toBe(HttpStatusCode.BadRequest)
 });
 
 test("Should fail in get account when id is invalid", async function () {
 	const id = "123456";
 	const output = await axios.get("http://localhost:3000/account/" + id);
 	expect(output.data).toBe(-2)
-	expect(output.status).toBe(HttpStatusCode.NotFound)
+	expect(output.status).toBe(HttpStatusCode.BadRequest)
 });
 
 test("Should fail in get account when id is not found", async function () {

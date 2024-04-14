@@ -11,10 +11,12 @@ test("Should create an account to passenger", async function () {
 		cpf: "87748248800",
 		isPassenger: true
 	};
-	const output = await axios.post("http://localhost:3000/signup", input);
-	expect(output.status).toBe(HttpStatusCode.Ok)
+	const response = await axios.post("http://localhost:3000/signup", input);
+	expect(response.status).toBe(HttpStatusCode.Ok)
+	const output = response.data;
+	expect(output.accountId).toBeDefined;
 	let expected = {
-		account_id: output.data.accountId,
+		account_id: response.data.accountId,
 		car_plate: null,
 		name: input.name,
 		email: input.email,
@@ -22,7 +24,7 @@ test("Should create an account to passenger", async function () {
 		is_passenger: input.isPassenger,
 		is_driver: false
 	};
-	const resp = await axios.get("http://localhost:3000/account/" + output.data.accountId);
+	const resp = await axios.get("http://localhost:3000/account/" + response.data.accountId);
 	expect(resp.data).toStrictEqual(expected)
 });
 
@@ -34,10 +36,12 @@ test("Should create an account to driver", async function () {
 		isDriver: true,
 		carPlate: "ABC1234"
 	};
-	const output = await axios.post("http://localhost:3000/signup", input);
-	expect(output.status).toBe(HttpStatusCode.Ok)
+	const response = await axios.post("http://localhost:3000/signup", input);
+	expect(response.status).toBe(HttpStatusCode.Ok)
+	const output = response.data;
+	expect(output.accountId).toBeDefined;
 	let expected = {
-		account_id: output.data.accountId,
+		account_id: response.data.accountId,
 		car_plate: input.carPlate,
 		name: input.name,
 		email: input.email,
@@ -45,7 +49,7 @@ test("Should create an account to driver", async function () {
 		is_passenger: false,
 		is_driver: input.isDriver
 	};
-	const resp = await axios.get("http://localhost:3000/account/" + output.data.accountId);
+	const resp = await axios.get("http://localhost:3000/account/" + response.data.accountId);
 	expect(resp.data).toStrictEqual(expected)
 });
 

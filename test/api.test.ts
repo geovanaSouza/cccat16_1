@@ -11,12 +11,12 @@ test("Should create an account to passenger", async function () {
 		cpf: "87748248800",
 		isPassenger: true
 	};
-	const response = await axios.post("http://localhost:3000/signup", input);
-	expect(response.status).toBe(HttpStatusCode.Ok)
-	const output = response.data;
-	expect(output.accountId).toBeDefined;
-	let expected = {
-		account_id: response.data.accountId,
+	const responseSignup = await axios.post("http://localhost:3000/signup", input);
+	expect(responseSignup.status).toBe(HttpStatusCode.Ok)
+	const outputSignup = responseSignup.data;
+	expect(outputSignup.accountId).toBeDefined();
+	let expectedAccount = {
+		account_id: responseSignup.data.accountId,
 		car_plate: null,
 		name: input.name,
 		email: input.email,
@@ -24,8 +24,8 @@ test("Should create an account to passenger", async function () {
 		is_passenger: input.isPassenger,
 		is_driver: false
 	};
-	const resp = await axios.get("http://localhost:3000/account/" + response.data.accountId);
-	expect(resp.data).toStrictEqual(expected)
+	const responseGetAccount = await axios.get("http://localhost:3000/account/" + responseSignup.data.accountId);
+	expect(responseGetAccount.data).toStrictEqual(expectedAccount)
 });
 
 test("Should create an account to driver", async function () {
@@ -36,12 +36,12 @@ test("Should create an account to driver", async function () {
 		isDriver: true,
 		carPlate: "ABC1234"
 	};
-	const response = await axios.post("http://localhost:3000/signup", input);
-	expect(response.status).toBe(HttpStatusCode.Ok)
-	const output = response.data;
-	expect(output.accountId).toBeDefined;
-	let expected = {
-		account_id: response.data.accountId,
+	const responseSignup = await axios.post("http://localhost:3000/signup", input);
+	expect(responseSignup.status).toBe(HttpStatusCode.Ok)
+	const outputSignup = responseSignup.data;
+	expect(outputSignup.accountId).toBeDefined();
+	let expectedAccount = {
+		account_id: responseSignup.data.accountId,
 		car_plate: input.carPlate,
 		name: input.name,
 		email: input.email,
@@ -49,8 +49,8 @@ test("Should create an account to driver", async function () {
 		is_passenger: false,
 		is_driver: input.isDriver
 	};
-	const resp = await axios.get("http://localhost:3000/account/" + response.data.accountId);
-	expect(resp.data).toStrictEqual(expected)
+	const responseGetAccount = await axios.get("http://localhost:3000/account/" + responseSignup.data.accountId);
+	expect(responseGetAccount.data).toStrictEqual(expectedAccount)
 });
 
 test("Should fail in create account when email is already registered", async function () {
@@ -60,11 +60,11 @@ test("Should fail in create account when email is already registered", async fun
 		cpf: "87748248800",
 		isPassenger: true
 	}
-	let output = await axios.post("http://localhost:3000/signup", input);
-	expect(output.status).toBe(HttpStatusCode.Ok)
-	output = await axios.post("http://localhost:3000/signup", input)
-	expect(output.data).toBe(-4)
-	expect(output.status).toBe(HttpStatusCode.BadRequest)
+	let responseSignupSetup = await axios.post("http://localhost:3000/signup", input);
+	expect(responseSignupSetup.status).toBe(HttpStatusCode.Ok)
+	const responseSignup = await axios.post("http://localhost:3000/signup", input)
+	expect(responseSignup.data).toBe(-4)
+	expect(responseSignup.status).toBe(HttpStatusCode.BadRequest)
 })
 
 test("Should fail in create account when name is invalid", async function () {
@@ -74,9 +74,9 @@ test("Should fail in create account when name is invalid", async function () {
 		cpf: "87748248800",
 		isPassenger: true
 	}
-	let output = await axios.post("http://localhost:3000/signup", input);
-	expect(output.data).toBe(-3)
-	expect(output.status).toBe(HttpStatusCode.BadRequest)
+	let responseSignup = await axios.post("http://localhost:3000/signup", input);
+	expect(responseSignup.data).toBe(-3)
+	expect(responseSignup.status).toBe(HttpStatusCode.BadRequest)
 })
 
 test("Should fail in create account when email is invalid", async function () {
@@ -86,9 +86,9 @@ test("Should fail in create account when email is invalid", async function () {
 		cpf: "87748248800",
 		isPassenger: true
 	}
-	let output = await axios.post("http://localhost:3000/signup", input);
-	expect(output.data).toBe(-2)
-	expect(output.status).toBe(HttpStatusCode.BadRequest)
+	let responseSignup = await axios.post("http://localhost:3000/signup", input);
+	expect(responseSignup.data).toBe(-2)
+	expect(responseSignup.status).toBe(HttpStatusCode.BadRequest)
 })
 
 test("Should fail in create account when cpf is invalid", async function () {
@@ -98,9 +98,9 @@ test("Should fail in create account when cpf is invalid", async function () {
 		cpf: "123456789",
 		isPassenger: true
 	}
-	let output = await axios.post("http://localhost:3000/signup", input);
-	expect(output.data).toBe(-1)
-	expect(output.status).toBe(HttpStatusCode.BadRequest)
+	let responseSignup = await axios.post("http://localhost:3000/signup", input);
+	expect(responseSignup.data).toBe(-1)
+	expect(responseSignup.status).toBe(HttpStatusCode.BadRequest)
 })
 
 test("Should fail in create account when carPlat is invalid", async function () {
@@ -111,21 +111,21 @@ test("Should fail in create account when carPlat is invalid", async function () 
 		isDriver: true,
 		carPlate: "invalid_plate"
 	};
-	const output = await axios.post("http://localhost:3000/signup", input);
-	expect(output.data).toBe(-5)
-	expect(output.status).toBe(HttpStatusCode.BadRequest)
+	const responseSignup = await axios.post("http://localhost:3000/signup", input);
+	expect(responseSignup.data).toBe(-5)
+	expect(responseSignup.status).toBe(HttpStatusCode.BadRequest)
 });
 
 test("Should fail in get account when id is invalid", async function () {
 	const id = "123456";
-	const output = await axios.get("http://localhost:3000/account/" + id);
-	expect(output.data).toBe(-2)
-	expect(output.status).toBe(HttpStatusCode.BadRequest)
+	const responseGetAccount = await axios.get("http://localhost:3000/account/" + id);
+	expect(responseGetAccount.data).toBe(-2)
+	expect(responseGetAccount.status).toBe(HttpStatusCode.BadRequest)
 });
 
 test("Should fail in get account when id is not found", async function () {
 	const id = "018ebfa8-4a72-7f0d-9df6-ed774448a63c";
-	const output = await axios.get("http://localhost:3000/account/" + id);
-	expect(output.data).toBe(-1)
-	expect(output.status).toBe(HttpStatusCode.NotFound)
+	const responseGetAccount = await axios.get("http://localhost:3000/account/" + id);
+	expect(responseGetAccount.data).toBe(-1)
+	expect(responseGetAccount.status).toBe(HttpStatusCode.NotFound)
 });

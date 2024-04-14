@@ -40,11 +40,11 @@ function isPlateValid(plate :string){
 	return plate.match(/[A-Z]{3}[0-9]{4}/)
 }
 
-app.get("/accounts/:uid", async function (req, res) {
+app.get("/accounts/:accountId", async function (req, res) {
 	const connection = pgp()("postgres://postgres:123456@localhost:5432/app");
 	try {
-		if (validator.isUUID(req.params.uid) !== true) return res.status(HttpStatusCode.BadRequest).send(-2 + "");
-		const [account] = await connection.query("select * from cccat16.account where account_id = $1", [req.params.uid]);
+		if (validator.isUUID(req.params.accountId) !== true) return res.status(HttpStatusCode.BadRequest).send(-2 + "");
+		const [account] = await connection.query("select * from cccat16.account where account_id = $1", [req.params.accountId]);
 		if (!account) return res.status(HttpStatusCode.NotFound).send(-1 + "");
 		res.json(account);
 	} finally {

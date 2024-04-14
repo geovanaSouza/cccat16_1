@@ -22,6 +22,8 @@
     "prestart": "docker-compose up -d",
     "start": "ts-node src/api.ts",
     "stop": "docker-compose stop && docker-compose rm --force",
-    "test": "jest --coverage --watchAll"
+    "test": "jest --coverage --watchAll",
+    "test:integration": "jest ./test/api.test.ts --coverage --watchAll",
+    "test:unit": "jest ./test/validateCpf.test.ts --coverage --watchAll"
   }
 }

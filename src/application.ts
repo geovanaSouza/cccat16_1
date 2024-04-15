@@ -8,11 +8,11 @@ export async function signup(input: any): Promise<any> {
 	const account = input;
 	account.accountId = crypto.randomUUID();
 	const accountExistent = await getAccountByEmail(input.email);
-	if (accountExistent) return -4;
-	if (!isNameValid(account.name)) return -3;
-	if (!isEmailValid(account.email)) return -2;
-	if (!isCpfValid(account.cpf)) return -1;
-	if (account.isDriver && !isCarPlateValid(account.carPlate)) return -5;
+	if (accountExistent) throw new Error("Account already exists");
+	if (!isNameValid(account.name)) throw new Error("Invalid name");
+	if (!isEmailValid(account.email)) throw new Error("Invalid email");
+	if (!isCpfValid(account.cpf)) throw new Error("Invalid cpf");
+	if (account.isDriver && !isCarPlateValid(account.carPlate)) throw new Error("Invalid car plate");
 	await saveAccount(account);
 	return {
 		accountId: account.accountId

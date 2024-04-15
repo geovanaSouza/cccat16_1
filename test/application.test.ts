@@ -52,10 +52,8 @@ test("Should fail in create account when email is already registered", async fun
 		cpf: "87748248800",
 		isPassenger: true
 	}
-	const outputSignupSetup = await signup(input);
-	expect(outputSignupSetup.accountId).toBeDefined();
-	const outputSignup = await signup(input);
-	expect(outputSignup).toBe(-4)
+	await signup(input);
+	await expect(() => signup(input)).rejects.toThrow(new Error("Account already exists"));
 })
 
 test("Should fail in create account when name is invalid", async function () {
@@ -65,8 +63,7 @@ test("Should fail in create account when name is invalid", async function () {
 		cpf: "87748248800",
 		isPassenger: true
 	}
-	const outputSignup = await signup(input);
-	expect(outputSignup).toBe(-3)
+	await expect(() => signup(input)).rejects.toThrow(new Error("Invalid name"));
 })
 
 test("Should fail in create account when email is invalid", async function () {
@@ -76,8 +73,7 @@ test("Should fail in create account when email is invalid", async function () {
 		cpf: "87748248800",
 		isPassenger: true
 	}
-	const outputSignup = await signup(input);
-	expect(outputSignup).toBe(-2)
+	await expect(() => signup(input)).rejects.toThrow(new Error("Invalid email"));
 })
 
 test("Should fail in create account when cpf is invalid", async function () {
@@ -87,8 +83,7 @@ test("Should fail in create account when cpf is invalid", async function () {
 		cpf: "123456789",
 		isPassenger: true
 	}
-	const outputSignup = await signup(input);
-	expect(outputSignup).toBe(-1)
+	await expect(() => signup(input)).rejects.toThrow(new Error("Invalid cpf"));
 })
 
 test.each([
@@ -103,8 +98,7 @@ test.each([
 		isDriver: true,
 		carPlate: carPlate
 	};
-	const outputSignup = await signup(input);
-	expect(outputSignup).toBe(-5);
+	await expect(() => signup(input)).rejects.toThrow(new Error("Invalid car plate"));
 })
 
 test("Should fail in get account when id is not found", async function () {

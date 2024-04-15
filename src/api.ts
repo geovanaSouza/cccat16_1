@@ -7,12 +7,14 @@ app.use(express.json());
 var validator = require('validator');
 
 app.post("/signup", async function (req, res) {
-	const output = await signup(req.body);
-	if (typeof output === "number"){
-		res.status(HttpStatusCode.BadRequest).send(output + "");
-	} else {
+	try {
+		const output = await signup(req.body);
 		res.json(output);
-	}	
+	} catch (error: any) {
+		res.status(HttpStatusCode.BadRequest).json({
+			message: error.message
+		});
+	}
 });
 
 app.get("/accounts/:accountId", async function (req, res) {

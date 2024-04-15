@@ -1,7 +1,6 @@
 import crypto from "crypto";
 import { isParameter } from "typescript"
-import { getAccountById, getAccountByEmail, saveAccount } from "../src/resource"
-import { getAccount } from "../src/application";
+import { AccountDAODatabase } from "../src/resource";
 
 test("Should save a record on account table and query by ID", async function () {
     const account = {
@@ -11,8 +10,9 @@ test("Should save a record on account table and query by ID", async function () 
         cpf: "87748248800",
         isPassenger: true
     }
-    await saveAccount(account);
-    const accountById = await getAccountById(account.accountId);
+    const accountDAO = new AccountDAODatabase();
+    await accountDAO.saveAccount(account);
+    const accountById = await accountDAO.getAccountById(account.accountId);
     expect(accountById.account_id).toBe(account.accountId);
     expect(accountById.name).toBe(account.name);
     expect(accountById.email).toBe(account.email);
@@ -28,8 +28,9 @@ test("Should save a record ona ccount table and query by email", async function 
         cpf: "87748248800",
         isPassenger: true
     }
-    await saveAccount(account);
-    const accountByEmail = await getAccountByEmail(account.email);
+    const accountDAO = new AccountDAODatabase();
+    await accountDAO.saveAccount(account);
+    const accountByEmail = await accountDAO.getAccountByEmail(account.email);
     expect(accountByEmail.account_id).toBe(account.accountId);
     expect(accountByEmail.name).toBe(account.name);
     expect(accountByEmail.email).toBe(account.email);

@@ -1,4 +1,14 @@
-import { getAccount, signup } from "../src/application";
+import { GetAccount, Signup } from "../src/application";
+import { AccountDAODatabase } from "../src/resource";
+
+let signup: Signup;
+let getAccount: GetAccount;
+
+beforeEach(async () => {
+	const accountDAO = new AccountDAODatabase();
+	signup = new Signup(accountDAO);
+	getAccount = new GetAccount(accountDAO);
+})
 
 test("Should create an account to passenger", async function () {
 	const input = {
@@ -7,7 +17,7 @@ test("Should create an account to passenger", async function () {
 		cpf: "87748248800",
 		isPassenger: true
 	};
-	const outputSignup = await signup(input);
+	const outputSignup = await signup.execute(input);
 	expect(outputSignup.accountId).toBeDefined();
 	const expectedAccount = {
 		account_id: outputSignup.accountId,
@@ -18,7 +28,7 @@ test("Should create an account to passenger", async function () {
 		is_passenger: input.isPassenger,
 		is_driver: false
 	};
-	const outputGetAccount = await getAccount(outputSignup.accountId);
+	const outputGetAccount = await getAccount.execute(outputSignup.accountId);
 	expect(outputGetAccount).toStrictEqual(expectedAccount)
 });
 
@@ -30,7 +40,7 @@ test("Should create an account to driver", async function () {
 		isDriver: true,
 		carPlate: "ABC1234"
 	};
-	const outputSignup = await signup(input);
+	const outputSignup = await signup.execute(input);
 	expect(outputSignup.accountId).toBeDefined();
 	const expectedAccount = {
 		account_id: outputSignup.accountId,
@@ -41,7 +51,7 @@ test("Should create an account to driver", async function () {
 		is_passenger: false,
 		is_driver: input.isDriver
 	};
-	const outputGetAccount = await getAccount(outputSignup.accountId);
+	const outputGetAccount = await getAccount.execute(outputSignup.accountId);
 	expect(outputGetAccount).toStrictEqual(expectedAccount)
 });
 
@@ -52,8 +62,8 @@ test("Should fail in create account when email is already registered", async fun
 		cpf: "87748248800",
 		isPassenger: true
 	}
-	await signup(input);
-	await expect(() => signup(input)).rejects.toThrow(new Error("Account already exists"));
+	await signup.execute(input);
+	await expect(() => signup.execute(input)).rejects.toThrow(new Error("Account already exists"));
 })
 
 test("Should fail in create account when name is invalid", async function () {
@@ -63,7 +73,7 @@ test("Should fail in create account when name is invalid", async function () {
 		cpf: "87748248800",
 		isPassenger: true
 	}
-	await expect(() => signup(input)).rejects.toThrow(new Error("Invalid name"));
+	await expect(() => signup.execute(input)).rejects.toThrow(new Error("Invalid name"));
 })
 
 test("Should fail in create account when email is invalid", async function () {
@@ -73,7 +83,7 @@ test("Should fail in create account when email is invalid", async function () {
 		cpf: "87748248800",
 		isPassenger: true
 	}
-	await expect(() => signup(input)).rejects.toThrow(new Error("Invalid email"));
+	await expect(() => signup.execute(input)).rejects.toThrow(new Error("Invalid email"));
 })
 
 test("Should fail in create account when cpf is invalid", async function () {
@@ -83,7 +93,7 @@ test("Should fail in create account when cpf is invalid", async function () {
 		cpf: "123456789",
 		isPassenger: true
 	}
-	await expect(() => signup(input)).rejects.toThrow(new Error("Invalid cpf"));
+	await expect(() => signup.execute(input)).rejects.toThrow(new Error("Invalid cpf"));
 })
 
 test.each([
@@ -98,11 +108,11 @@ test.each([
 		isDriver: true,
 		carPlate: carPlate
 	};
-	await expect(() => signup(input)).rejects.toThrow(new Error("Invalid car plate"));
+	await expect(() => signup.execute(input)).rejects.toThrow(new Error("Invalid car plate"));
 })
 
 test("Should fail in get account when id is not found", async function () {
 	const id = "018ebfa8-4a72-7f0d-9df6-ed774448a63c";
-	const outputGetAccount = await getAccount(id);
+	const outputGetAccount = await getAccount.execute(id);
 	expect(outputGetAccount).toBe(-1)
 });

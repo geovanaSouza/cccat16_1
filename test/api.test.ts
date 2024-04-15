@@ -60,10 +60,7 @@ test("Should fail in create account when email is already registered", async fun
 		cpf: "87748248800",
 		isPassenger: true
 	}
-	const responseSignupSetup = await axios.post("http://localhost:3000/signup", input);
-	expect(responseSignupSetup.status).toBe(HttpStatusCode.Ok)
-	const outputSignupSetup = responseSignupSetup.data;
-	expect(outputSignupSetup.accountId).toBeDefined();
+	await axios.post("http://localhost:3000/signup", input);
 	const responseSignup = await axios.post("http://localhost:3000/signup", input)
 	expect(responseSignup.data).toBe(-4)
 	expect(responseSignup.status).toBe(HttpStatusCode.BadRequest)

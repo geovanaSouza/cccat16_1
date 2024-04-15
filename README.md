@@ -13,5 +13,5 @@ Para mais informações acesse:
 - `npm run stop`: stop api and all components dependencies
 - `npm run test`: run tests with whatchAll. Needs to execute `npm run dev` in an isolated terminal before execute all tests.
 - `npm run test:unit`: run only unit tests with whatchAll
-- `npm run test:integration`: run only integration tests with whatchAll
-- `npm run test:e2e`: run tests using the API layer with whatchAll. Needs to execute `npm run dev` in an isolated terminal before execute all tests.
+- `npm run test:integration`: run only integration tests with whatchAll. Needs docker.
+- `npm run test:integrationWithServerDependencies`: run tests using the API layer with whatchAll. Needs to execute `npm run dev` in an isolated terminal before execute all tests.

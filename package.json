@@ -24,7 +24,7 @@
     "stop": "docker-compose stop && docker-compose rm --force",
     "test": "jest --coverage --watchAll",
     "test:unit": "jest ./test/validateCpf.test.ts --coverage --watchAll",
-    "test:integration": "docker-compose up -d && jest ./test/application.test.ts --coverage --watchAll",
-    "test:e2e": "jest ./test/api.test.ts --coverage --watchAll"
+    "test:integration": "docker-compose up -d && jest ./test/application.test.ts ./test/resources.test.ts --coverage --watchAll",
+    "test:integrationWithServerDependencies": "jest ./test/api.test.ts --coverage --watchAll"
   }
 }
